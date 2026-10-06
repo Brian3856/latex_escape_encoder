@@ -27,3 +27,10 @@ Trade-off: the Unicode mapping is intentionally small and curated. It covers com
 ## Awkward edge
 
 The backslash is both an escape character and a LaTeX command prefix. `escapeLatex` converts a literal backslash to `\textbackslash{}`, while `unescapeLatex` accepts both `\textbackslash{}` and `\textbackslash`. When combining `escapeLatex` with `mapUnicodeToLatex`, call `mapUnicodeToLatex` first, then `escapeLatex` on the result, so that LaTeX command sequences produced by the mapping are not escaped again.
+
+## Performance
+
+The window keeps a bounded buffer, so `push` is constant time and memory does not
+grow with the length of the stream. `peak` and `trough` are linear in the window
+size, which is the trade that keeps `push` cheap.
+
